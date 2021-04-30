@@ -17,10 +17,12 @@ SRCREV  = "fed3c47a56b237ca307336f1ea8eeac94185ca1e"
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/git"
 
-inherit bluetooth python-dir pkgconfig
+#inherit bluetooth python-dir pkgconfig
+inherit python-dir pkgconfig
 
 BLUEZ_DEPS = "${BLUEZ} dbus-glib"
-DEPENDS  = " openssl bzip2 python mcpp lmdb expat ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ_DEPS}', '', d)}"
+#DEPENDS  = " openssl bzip2 python mcpp lmdb expat ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ_DEPS}', '', d)}"
+DEPENDS  = " openssl bzip2 python mcpp lmdb expat"
 RDEPENDS_${PN} = "openssl bzip2"
 
 python () {
@@ -32,11 +34,11 @@ python () {
 
 # OECORE_SDK_VERSION is always set in an SDK. To get the Ice build system to
 # detect a Yocto/OE build just need to to be set here.
+#                "${PLATFORM}_excludes=${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '', 'IceBT', d)}"
 EXTRA_OEMAKE = "'OECORE_SDK_VERSION=yes' \
                 'CONFIGS=all' \
                 'LANGUAGES=cpp python' \
                 'USR_DIR_INSTALL=yes' \
-                "${PLATFORM}_excludes=${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '', 'IceBT', d)}"\
                 'install_pythondir=${PYTHON_SITEPACKAGES_DIR}' \
                 'PYTHON_LIB_DIR=${STAGING_LIBDIR}' \
                 'PYTHON_LIB_SUFFIX=${PYTHON_ABI}' \
